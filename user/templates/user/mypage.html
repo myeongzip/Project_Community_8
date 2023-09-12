@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+    <div>{{ request.user}}의 마이페이지</div>
+    <form action="/user/logout/" method="GET">
+        {% scrf_token %}
+        <button>signout</button>
+    </form>
+    {% else %}
+    <div>
+        마이페이지를 보기위해서는 로그인이 필요합니다
+        <a href="/accounts/login/">로그인</a>
+        <a href="/accounts/signal">회원가입</a>
+    </div>
+    {% endif %}
+</body>
+</html>

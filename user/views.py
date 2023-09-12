@@ -43,3 +43,9 @@ def signout(request):
         return redirect("/")
     else:
         return HttpResponse("Invalid request method", status=405)
+    
+def mypage(request):
+    if request.method == "GET":
+        return render(request, "user/mypage.html")
+    else:
+        return HttpResponse("Invalid request method", status=405)
