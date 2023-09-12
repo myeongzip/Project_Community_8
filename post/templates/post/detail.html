@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block content %}
+
+    <div>
+        <h1>상세 페이지입니다</h1>
+        <h1>{{post.title}}</h1>
+        <img src="/media/{{post.image}}" alt="" />
+        <p>{{post.content}}</p>
+        <p>{{post.created_at}}</p>
+        <p>{{post.updated_at}}</p>
+        <p>{{ post.user_id }}</p>
+        <p>{{ post.user.username }}</p>
+
+        {% if request.user == post.user %}
+        <div>
+        <form action="/post/{{post.id}}/delete/" method="post">
+            {% csrf_token %}
+            <button>삭제하기</button>
+        </form>
+        <a href="/post/{{post.id}}/update/">
+            {% csrf_token %}
+            <button>수정하기</button>
+        </a>
+        {% endif %}
+
+        <a href="/{post.id}/">
+            <button>뒤돌아가기</button>
+        </a>
+    </div>
+{% endblock %}
