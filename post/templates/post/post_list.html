@@ -60,14 +60,15 @@
       <br>
             {% if request.user.is_authenticated %}
             <form action="/post/create/" method="post">
-                
-                <button>글쓰기</button>
+                {% csrf_token %}
+                <button type="submit">글쓰기</button>
                 
             </form>
             {% else %}
             <h1>비회원모드</h1>
             <div>
-                <a href="return confirm('정말 삭제하시겠습니까?')">글쓰기</a>
+                
+                <button onclick="return alert('로그인 후 작성 가능합니당~~');">글쓰기</button>
             </div>
             {% endif %}
 
