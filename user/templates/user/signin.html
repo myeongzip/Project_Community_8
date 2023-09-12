@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+    {% include 'form.html' with title_label='Sign-in form page' submit_label='Sign-in'%}
+{% endblock %}
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,4 +20,4 @@
         <button type="submit">로그인하기</button><br>
     </form>
 </body>
-</html>
+</html> -->
