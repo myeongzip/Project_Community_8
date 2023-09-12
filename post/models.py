@@ -15,7 +15,7 @@ class Post(models.Model):
     # likes = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='post_likes')
     
     def __str__(self):
-        return self.content, self.title, self.user
+        return self.content
     
     # @property
     # def view_count(self):
@@ -32,4 +32,4 @@ class Comment(models.Model):
 #     user = models.ForeignKey(User)
 #     post = models.ForeignKey(Post)
 #     created = models.DateTimeField(auto_now_add=True)
-    
+ 
