@@ -15,7 +15,7 @@ class Post(models.Model):
     # likes = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='post_likes')
     
     def __str__(self):
-        return self.content, self.title, self.user
+        return self.title
     
     # @property
     # def view_count(self):
