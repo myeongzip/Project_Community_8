@@ -42,7 +42,7 @@ def post_update(request, post_id):
         if request.user == post.user:
             post.title = request.POST["title"]
             post.content = request.POST["content"]
-            post.post_image = request.POST["post_image"]
+            post.post_image = request.FILES.get("post_image")
             post.save()
             return redirect(f"/post/{post_id}/")
         else:

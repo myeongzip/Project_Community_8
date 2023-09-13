@@ -1,16 +1,24 @@
 {% extends 'base.html' %} {% block content %}
 
-    <div>
-        <h1>상세 페이지입니다</h1>
-        <h1>{{post.title}}</h1>
-        {% if post.post_image %}
-        <img src="{{post.post_image.url}}" alt="" srcset="">
-        {% endif %}
-        <p>{{post.content}}</p>
-        <p>{{post.created_at}}</p>
-        <p>{{post.updated_at}}</p>
-        <p>{{ post.user_id }}</p>
+
+    <div class="text-center">
+        <a href="/">
+            <button>뒤돌아가기</button>
+        </a>
+        <h1>제목: {{post.title}}</h1>
+        <p>{{ post.user.image }}</p>
         <p>{{ post.user.username }}</p>
+        <p>{{post.content}}</p>
+
+        {% if post.post_image %}
+        <div class="text-center">
+            <img src="{{post.post_image.url}}" class="rounded" alt="">
+        </div>
+        {% endif %}
+
+        <p>작성시간: {{post.created_at}}</p>
+        <p>수정시간: {{post.updated_at}}</p>
+
 
         {% if request.user == post.user %}
         <div>
@@ -23,9 +31,5 @@
             <button>삭제하기</button>
         </form>        
         {% endif %}
-
-        <a href="/">
-            <button>뒤돌아가기</button>
-        </a>
     </div>
 {% endblock %}

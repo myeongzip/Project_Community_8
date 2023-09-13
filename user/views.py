@@ -44,5 +44,8 @@ def signout(request):
     else:
         return HttpResponse("Invalid request method", status=405)
     
-def mypage(requset):
-    pass
+def mypage(request):
+    if request.method == "GET":
+        return render(request, "user/mypage.html")
+    else:
+        return HttpResponse("Invalid request method", status=405)
