@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block content %}
+<div>
+    <form action="{% url 'post/create' %}" method="POST" enctype="multipart/form-data">   <!--이미지 넣을 때 enctype사용. 여러 화물을 담는 기차-->
+        {% csrf_token %}
+
+        제목 : <input type="text" name="title" id="title" /><br>
+        내용 : <input type="text" name="content" id="content" /><br>
+        첨부파일 : <input type="file" name="post_image" id="post_image" /><br>
+        <button type="submit">만들기</button>
+    </form>
+</div>
+{% endblock %}

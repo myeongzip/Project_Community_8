@@ -43,3 +43,6 @@ def signout(request):
         return redirect("/")
     else:
         return HttpResponse("Invalid request method", status=405)
+    
+def mypage(requset):
+    pass

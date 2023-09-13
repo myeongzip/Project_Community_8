@@ -20,13 +20,22 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
-from community import views
+from post.views import post_read
 
 
 urlpatterns = [    
     path('admin/', admin.site.urls),
     path(
         "",
+<<<<<<< HEAD
+        post_read,
+        name="main",
+    ),
+    path('user/', include('user.urls')),
+    path('post/', include('post.urls')),
+]
+
+=======
         TemplateView.as_view(template_name="root.html"),
         name="root",
     ),
@@ -34,6 +43,7 @@ urlpatterns = [
     path('post/', include('post.urls')),
 
 ]
+>>>>>>> 926a635289a811d5d5e8d55740c53b193b89c6e8
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

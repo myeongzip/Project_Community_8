@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+{% extends 'base.html' %} {% block content %}
+<div>
+    <h3>post_list</h3>
+=======
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,27 +40,58 @@
     
     
 
+>>>>>>> 926a635289a811d5d5e8d55740c53b193b89c6e8
     <table class="table">
         <thead>
             <!-- <tr onclick="location.href='https://www.naver.com/'" style="cursor:hand"> -->
             <tr>
+<<<<<<< HEAD
+                <th scope="col">번호</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+=======
                 <th scope="col">#</th>
                 <th scope="col">제목</th>
                 <th scope="col">내용</th>
+>>>>>>> 926a635289a811d5d5e8d55740c53b193b89c6e8
                 <th scope="col">날짜</th>
             </tr>
         </thead>
         <tbody>
+<<<<<<< HEAD
+            
+            <tr>
+            {% for class in post_list %}
+                <th scope="row"> {{class.id }}</th>
+                    <td><a href="/post/{{ class.id }}">{{class.title }}</a></td> <!-- 클릭해서 상세 -->
+=======
             {% for class in post_list %}
             <tr>
                 <th scope="row">{{class.id }}</th>
                     <td><a href="#">{{class.title }}</a></td> <!-- 클릭해서 상세 -->
+>>>>>>> 926a635289a811d5d5e8d55740c53b193b89c6e8
                     <td>{{class.user.username }}</td>
                     <td>{{class.updated_at }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
       </table>
+<<<<<<< HEAD
+      <br>
+            {% if request.user.is_authenticated %}
+            <a href="/post/create/">        <!--form 태그를 a 태그로 바꿔줌-->
+                <button type="submit">글쓰기</button>
+            </a>
+                
+            {% else %}
+            <h4>비회원모드</h4>
+            <div>
+                <button onclick="return alert('로그인 후 작성 가능합니당~~');">글쓰기</button>
+            </div>
+            {% endif %}
+</div>
+{% endblock %}
+=======
 
       <br>
             {% if request.user.is_authenticated %}
@@ -95,3 +131,4 @@
     </footer>
     </body>
 </html>
+>>>>>>> 926a635289a811d5d5e8d55740c53b193b89c6e8
