@@ -16,6 +16,7 @@ class Post(models.Model):
     
     def __str__(self):
         return self.title
+
     
     # @property
     # def view_count(self):
@@ -32,4 +33,4 @@ class Comment(models.Model):
 #     user = models.ForeignKey(User)
 #     post = models.ForeignKey(Post)
 #     created = models.DateTimeField(auto_now_add=True)
-    
+ 
