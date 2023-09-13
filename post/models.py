@@ -16,6 +16,10 @@ class Post(models.Model):
     
     def __str__(self):
         return self.title
+<<<<<<< HEAD
+=======
+
+>>>>>>> 926a635289a811d5d5e8d55740c53b193b89c6e8
     
     # @property
     # def view_count(self):
