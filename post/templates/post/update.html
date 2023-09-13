@@ -16,9 +16,15 @@
             id="content" 
             value="{{ post.content }}"
         /> <br>
+        
+        {% if post.post_image %}
         <img src="{{post.post_image.url}}" alt="" srcset=""><br>
-        <input type="file" name="post_image" id="post_image" value="{{ post.post_image.url }}"/>
+        {% endif %}
+       
+        <input type="file" name="post_image" id="post_image" /><br>
+
         <button type="submit">수정하기</button> <br>
+        
     </form>
 </div>
 {% endblock %}
