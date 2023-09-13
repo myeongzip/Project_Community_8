@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block content %}
+<div>
+    <h3>post_list</h3>
+    <table class="table">
+        <thead>
+            <!-- <tr onclick="location.href='https://www.naver.com/'" style="cursor:hand"> -->
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">제목</th>
+                <th scope="col">내용</th>
+                <th scope="col">날짜</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for class in post_list %}
+            <tr>
+                <th scope="row">{{class.id }}</th>
+                    <td><a href="#">{{class.title }}</a></td> <!-- 클릭해서 상세 -->
+                    <td>{{class.user.username }}</td>
+                    <td>{{class.updated_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+      </table>
+</div>
+{% endblock %}

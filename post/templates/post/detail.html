@@ -12,17 +12,17 @@
 
         {% if request.user == post.user %}
         <div>
-        <form action="/post/{{post.id}}/delete/" method="post">
-            {% csrf_token %}
-            <button>삭제하기</button>
-        </form>
         <a href="/post/{{post.id}}/update/">
             {% csrf_token %}
             <button>수정하기</button>
         </a>
+        <form action="/post/{{post.id}}/delete/" method="post">
+            {% csrf_token %}
+            <button>삭제하기</button>
+        </form>        
         {% endif %}
 
-        <a href="/{post.id}/">
+        <a href="/">
             <button>뒤돌아가기</button>
         </a>
     </div>

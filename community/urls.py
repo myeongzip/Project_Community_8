@@ -25,16 +25,15 @@ from community import views
 
 urlpatterns = [    
     path('admin/', admin.site.urls),
-    # path('', views.index),    # base.html 가는 url
     path(
         "",
-        TemplateView.as_view(template_name="root.html"),
+        TemplateView.as_view(template_name="post/post_list.html"),
         name="root",
     ),
     path('user/', include('user.urls')),
     path('post/', include('post.urls')),
-    
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
