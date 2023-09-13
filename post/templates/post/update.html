@@ -12,11 +12,12 @@
         /> <br>
         <input
             type="text" 
-            name="content" 
+            name="content"
             id="content" 
             value="{{ post.content }}"
         /> <br>
-        <input type="file" name="post_image" id="post_image" accept="media/post_pics"/>
+        <img src="{{post.post_image.url}}" alt="" srcset=""><br>
+        <input type="file" name="post_image" id="post_image" value="{{ post.post_image.url }}"/>
         <button type="submit">수정하기</button> <br>
     </form>
 </div>
