@@ -15,14 +15,14 @@ def post_read(request):
 def post_create(request):
     if request.method == "POST":
         Post.objects.create(
-            content=request.POST["content"], 
             title=request.POST["title"],
+            content=request.POST["content"],
             user=request.user,
             post_image = request.FILES.get("post_image")
         )
-        return redirect("/post/post_read/")
+        return redirect("/")
     elif request.method == "GET":
-        return render(request, "post/post_create.html")
+        return render(request, "post/create.html")
     else:
         return HttpResponse("Invalid request method", status=405)
     

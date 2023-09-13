@@ -2,7 +2,7 @@
 <div>
     
     <h1>post 수정 페이지</h1>
-    <form action="/post/{{ post.id }}/update/" method="post">
+    <form action="/post/{{ post.id }}/update/" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input
             type="text" 
@@ -16,7 +16,7 @@
             id="content" 
             value="{{ post.content }}"
         /> <br>
-        <input type="file" name="post_image" id="post_image" />
+        <input type="file" name="post_image" id="post_image" accept="media/post_pics"/>
         <button type="submit">수정하기</button> <br>
     </form>
 </div>
