@@ -25,7 +25,7 @@ def signin(request):
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
-        if user is not None:    # DB에 있는 username이랑 PW가 입력한 것과 일치한다
+        if user is not None:
             login(request, user)
             return redirect("/")
         else:
@@ -53,5 +53,4 @@ def mypage(request):
         return render(request, "user/mypage.html", context)
     else:
         return HttpResponse("Invalid request method", status=405)
-    
-
+  

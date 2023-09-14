@@ -1,43 +1,29 @@
 {% extends 'base.html' %}
-
 {% block content %}
-{% if request.user.is_authenticated %}
-    <h1>{{ request.user}}의 마이페이지</h1>
-    <form action="/user/signout/" method="POST">
 
-        <p>어디야</p>
-        <p>어디야</p>
+<div class="text-center">
+  <h1>{{ user.fullname }}의 마이페이지</h1>
+  <p> {{ user.bio }} </p>
 
-    <div class="text-center">
-        <form action="{% url 'post:create' %}" method="POST" enctype="multipart/form-data">   <!--이미지 넣을 때 enctype사용. 여러 화물을 담는 기차-->
-            {% csrf_token %}
-            첨부파일 : <input type="file" name="post_profile" id="post_profile" /><br>
-            <button type="submit">프로필 사진 업로드</button>
-        </form>
-    </div>
-
-    {% for post in user.post.all %}
-    <ul>
-        <a href="/post/{{ post.id }}">
-            <li class="list-group-item">
-                {{ post.title }}
-            </li>
-        {% endfor %}
-        </a>
-    </ul>
+  <div class="text-center">
+      <form action="{% url 'user:profile_update' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          첨부파일 : <input type="file" name="user_image" id="user_image" /><br>
+          <button type="submit">프로필 사진 업로드</button>
+      </form>
+  </div>
 
 
+  {% for post in user.post.all %}
+  <ul>
+      <a href="/post/{{ post.id }}">
+          <li class="list-group-item">
+              {{ post.title }}
+          </li>
+      {% endfor %}
+      </a>
+  </ul>
+</div>
 
-    {% csrf_token %}
-        <button>logout</button>
-    </form>
-
-    {% else %}
-    <div>
-        마이페이지를 보기위해서는 로그인
-        <a href="/user/login/">로그인</a>
-        <a href="/user/signup/">회원가입</a>
-    </div>
-    {% endif %}
 
 {% endblock %}

@@ -31,5 +31,33 @@
             <button>삭제하기</button>
         </form>        
         {% endif %}
+
+        {% if request.user.is_authenticated %}
+        <form action="/post/{{post.id}}/comment_create/" method="post">
+            {% csrf_token %}
+            <input type="text" name="comment_content" id="comment_content">
+            <button type="submit" class="btn btn-sm btn-outline-secondary">댓글 작성</button>
+        </form>
+        {% else %}
+        <a href="{% url 'user:signin' %}">[댓글을 작성하려면 로그인하세요.]</a>
+        {% endif %}
+        
+        
+        
+        {% for comment in post.comments.all %}   
+            <div class="comment">
+                <div class="date">{{ comment.created_at }}</div>
+                {% if comment.user.image %}
+                    <img src="{{comment.user.image.url}}" alt="" srcset="">
+                {% else %}
+                    <img src="/media/profile_pics/'default.jpg" alt="" srcset="">
+                {% endif %}
+                <strong>{{ comment.user }}</strong>
+                <p>{{ comment.content|linebreaks }}</p>
+            </div>
+
+        {% endfor %}
+                
     </div>
+
 {% endblock %}
