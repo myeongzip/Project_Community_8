@@ -19,7 +19,12 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
 
+from community import views
+
+
 from post.views import post_read
+
+
 
 
 urlpatterns = [    
@@ -31,6 +36,7 @@ urlpatterns = [
     ),
     path('user/', include('user.urls')),
     path('post/', include('post.urls')),
+    path('search/', views.search, name='search'),
 ]
 
 

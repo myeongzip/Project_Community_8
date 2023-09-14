@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from post.models import Comment, Like, Post
 from user.models import User
+
 from django.core.paginator import Paginator
 from django.views.decorators.http import require_POST
 
@@ -112,10 +113,3 @@ def comment_delete(request, post_id, comment_id):
         if request.user == comment.user:
             comment.delete()
     return redirect(f"/post/{post_id}/")
-    # if request.method == "POST":
-    #     comment = Comment.objects.get(id=comment_id)
-    #     if request.user == comment.user:
-    #         comment.delete()
-    #         return redirect(f"/post/{post_id}/")
-    #     else:
-    #         return HttpResponse("Invalid request method", status=405)
