@@ -16,18 +16,15 @@
         </form>
     </div>
 
-    {% for todo in todos %}
+    {% for post in user.post.all %}
     <ul>
         <a href="/post/{{ post.id }}">
             <li class="list-group-item">
-                {{ todo.content }}
+                {{ post.title }}
             </li>
         {% endfor %}
         </a>
     </ul>
-
-
-
 
 
 
