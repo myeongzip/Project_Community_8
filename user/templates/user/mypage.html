@@ -1,14 +1,24 @@
-{% extends 'base.html' %}
 
-{% block content %}
+
 
 {% if request.user.is_authenticated %}
     <div>{{ request.user}}의 마이페이지</div>
     <form action="/user/signout/" method="POST">
-        {% csrf_token %}
 
-        <button>signout</button>
+        <p>어디야</p>
+        <p>어디야</p>
+
+    <div class="text-center">
+        <form action="{% url 'post:create' %}" method="POST" enctype="multipart/form-data">   <!--이미지 넣을 때 enctype사용. 여러 화물을 담는 기차-->
+            {% csrf_token %}
+            첨부파일 : <input type="file" name="post_profile" id="post_profile" /><br>
+            <button type="submit">프로필 사진 업로드</button>
+        </form>
+    </div>
+        {% csrf_token %}
+        <button>logout</button>
     </form>
+
     {% else %}
     <div>
         마이페이지를 보기위해서는 로그인
