@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block content %}
+<div>
+    
+    <h1>post 수정 페이지</h1>
+    <form action="/post/{{ post.id }}/update/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input
+            type="text" 
+            name="title" 
+            id="title" 
+            value="{{ post.title }}"
+        /> <br>
+        <input
+            type="text" 
+            name="content"
+            id="content" 
+            value="{{ post.content }}"
+        /> <br>
+        <img src="{{post.post_image.url}}" alt="" srcset=""><br>
+        <input type="file" name="post_image" id="post_image" value="{{ post.post_image.url }}"/>
+        <button type="submit">수정하기</button> <br>
+    </form>
+</div>
+{% endblock %}
