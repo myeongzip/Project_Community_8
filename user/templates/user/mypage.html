@@ -3,6 +3,7 @@
 
 <div class="text-center">
   <h1>{{ user.fullname }}의 마이페이지</h1>
+  
   <p> {{ user.bio }} </p>
 
   <div class="text-center">
@@ -11,8 +12,10 @@
           첨부파일 : <input type="file" name="user_image" id="user_image" /><br>
           <button type="submit">프로필 사진 업로드</button>
       </form>
-  </div>
-
+  </div><br>
+<a href="/user/{{user.id}}/mypage/update/">
+        <button>프로필 수정하기</button>
+    </a>
 
   {% for post in user.post.all %}
   <ul>
@@ -24,6 +27,5 @@
       </a>
   </ul>
 </div>
-
 
 {% endblock %}
