@@ -1,17 +1,37 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from post.models import Comment, Post
+from post.models import Comment, Like, Post
 from user.models import User
-
+from django.core.paginator import Paginator
 from django.views.decorators.http import require_POST
 
 # Create your views here.
+
+def post_likes(request, post_id):
+    # if request.user.is_authenticated:
+    post = get_object_or_404(Post, id=post_id)
+    user = request.user
+    # user_has_liked = post.liked_by.filter(id=user.id).exists() if user.is_authenticated else False
+    if not user.is_authenticated:
+        return redirect('/user/signin')
+    like_exists = Like.objects.filter(user=user, post=post).exists()
+    if like_exists:
+        Like.objects.filter(user=user, post=post).delete()
+    else:
+        Like.objects.create(user=user, post=post)
+
+    return redirect('/', post_id=post.id)
+
 def post_read(request):
-    post_list = Post.objects.all()
     user_profile = User.objects.all()
+    post_list = Post.objects.order_by("-created_at")
+    paginator = Paginator(post_list, 3)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
     return render(request, 'post/post_list.html', {'post_list': post_list,
-                                                   'user_profile': user_profile
+                                                   'user_profile': user_profile,
+                                                   'posts': posts,
                                                    })
 
 def post_create(request):
@@ -69,21 +89,6 @@ def post_delete(request, post_id):
             return HttpResponse("Invalid request method", status=405)
 
 
-# def post(request, id):
-    
-    
-#     already_liked = PostLikes.objects.filter(user=request.user, post=post).count()
-#     if number_of_likes > 0:
-#         already_liked = True # pass this variable to your context
-#     else:
-#         already_liked = False # you can make this anything other than boolean
-
-
-# def like_others_post(request, post_id):
-#     new_like, created = PostLikes.objects.get_or_create(user=request.user, 
-#                                                    post_id=post_id)
-#     if not created:
-#         # you may get and delete the object as the user may already liked this post before
 
 
 
