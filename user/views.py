@@ -25,7 +25,7 @@ def signin(request):
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
-        if user is not None:    # DB에 있는 username이랑 PW가 입력한 것과 일치한다
+        if user is not None:
             login(request, user)
             return redirect("/")
         else:
@@ -46,19 +46,14 @@ def signout(request):
     
 def mypage(request):
     if request.method == "GET":
-        return render(request, "user/mypage.html")
+        profile = User.objects.all()
+        context = {
+            "profile":profile,   
+        }
+        return render(request, "user/mypage.html", context)
     else:
         return HttpResponse("Invalid request method", status=405)
-    
-def post_profile(request):
-    if request.method == "POST":
-        Post.objects.create(
-            user=request.user,
-            post_image = request.FILES.get("post_profile")
-        )
-        return redirect("user/mypage.html")
-    else:
-        return HttpResponse("Invalid request method", status=405)
+
     
 def profile_update(request, user_id):
     if request.method == "POST":
