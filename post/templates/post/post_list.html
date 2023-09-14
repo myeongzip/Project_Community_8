@@ -28,7 +28,7 @@ a {
           </a>
             <!-- <img src="{{p.post_img}}"> -->
             <div class="card-body">
-              <p class="card-text" style="color: gray;">{{ p.content }},,,, {{ p.user.username }} </p>
+              <p class="card-text" style="color: gray;">{{ p.content }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   
@@ -58,7 +58,7 @@ a {
                     <a href="post/{{p.id}}/likes/">Like</a>
                 {% endif %}
             {% else %}
-                <p>Please <a href="{% url 'login' %}">login</a> to like this post.</p>
+                <p>Please <a href="{% url 'user:login' %}">login</a> to like this post.</p>
             {% endif %}
         </div>
         {% endfor %}

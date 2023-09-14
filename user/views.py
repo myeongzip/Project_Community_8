@@ -25,7 +25,7 @@ def signin(request):
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
-        if user is not None:    # DB에 있는 username이랑 PW가 입력한 것과 일치한다
+        if user is not None:
             login(request, user)
             return redirect("/")
         else:
@@ -44,5 +44,37 @@ def signout(request):
     else:
         return HttpResponse("Invalid request method", status=405)
     
-def mypage(requset):
-    pass
+def mypage(request):
+    if request.method == "GET":
+        profile = User.objects.all()
+        context = {
+            "profile":profile,   
+        }
+        return render(request, "user/mypage.html", context)
+    else:
+        return HttpResponse("Invalid request method", status=405)
+
+    
+def profile_update(request, user_id):
+    if request.method == "POST":
+        profile = User.objects.get(id=user_id)
+        if request.user.username == profile.username:
+            profile.password = request.POST["password"]
+            profile.email = request.POST["email"]
+            profile.image = request.FILES.get("user_image")
+            profile.bio = request.POST["bio"]
+            profile.save()
+            return redirect("/user/mypage/")
+        else:
+            return HttpResponse("You are not allowed to delete this todo", status=403)
+    elif request.method == "GET":
+        profile = User.objects.get(id=user_id)
+        if request.user.id == profile.id:
+            context = {
+                "profile":profile,   
+            }
+            return render(request, "user/profile_update.html", context)
+        else:
+            return HttpResponse("You are not allowed to delete this todo", status=403)
+    else:
+        return HttpResponse("Invalid request method", status=405)

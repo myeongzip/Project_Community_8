@@ -1,16 +1,24 @@
 {% extends 'base.html' %} {% block content %}
 
-    <div>
-        <h1>상세 페이지입니다</h1>
-        <h1>{{post.title}}</h1>
-        {% if post.post_image %}
-        <img src="{{post.post_image.url}}" alt="" srcset="">
-        {% endif %}
-        <p>{{post.content}}</p>
-        <p>{{post.created_at}}</p>
-        <p>{{post.updated_at}}</p>
-        <p>{{ post.user_id }}</p>
+
+    <div class="text-center">
+        <a href="/">
+            <button>뒤돌아가기</button>
+        </a>
+        <h1>제목: {{post.title}}</h1>
+        <p>{{ post.user.image }}</p>
         <p>{{ post.user.username }}</p>
+        <p>{{post.content}}</p>
+
+        {% if post.post_image %}
+        <div class="text-center">
+            <img src="{{post.post_image.url}}" class="rounded" alt="">
+        </div>
+        {% endif %}
+
+        <p>작성시간: {{post.created_at}}</p>
+        <p>수정시간: {{post.updated_at}}</p>
+
 
         {% if request.user == post.user %}
         <div>
@@ -24,8 +32,41 @@
         </form>        
         {% endif %}
 
-        <a href="/">
-            <button>뒤돌아가기</button>
-        </a>
+        <hr>
+
+        {% if request.user.is_authenticated %}
+        <form action="/post/{{post.id}}/comment_create/" method="post">
+            {% csrf_token %}
+            <input type="text" name="comment_content" id="comment_content">
+            <button type="submit" class="btn btn-sm btn-outline-secondary">댓글 작성</button>
+        </form>
+        {% else %}
+        <a href="{% url 'user:signin' %}">[댓글을 작성하려면 로그인하세요.]</a>
+        {% endif %}
+        
+        
+        
+        {% for comment in post.comments.all %}   
+            <div class="comment">   
+                {% if comment.user.image %}
+                    <img src="{{comment.user.image.url}}" alt="" srcset="">
+                {% else %}
+                    <img src="/media/profile_pics/'default.jpg" alt="" srcset="">
+                {% endif %}
+                <p><strong>{{ comment.user }}</strong>-{{ comment.content }}  {{comment.created_at}}</p>
+                {% if request.user == comment.user %}
+                <form action="/post/{{ post.id }}/comment/{{ comment.id }}/delete/" method="post">
+                    {% csrf_token %}
+                    <button type="submit">삭제하기</button>
+                </form>
+            </div>
+
+            {% else %}
+            <p><strong>{{ comment.user }}</strong>-{{ comment.content }}</p>
+            {% endif %}
+            <hr>
+        {% endfor %}
+                
     </div>
+
 {% endblock %}

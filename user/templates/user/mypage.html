@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="text-center">
+  <h1>{{ user.username }}의 마이페이지</h1>
+  <p>성 {{ user.first_name }}</p>
+  <p>이름 {{ user.last_name }}</p>
+
+  <p> {{ user.bio }} </p>
+{% if user.image %}
+  <div class="text-center">
+    <img src="{{user.image.url}}" alt="" srcset="">
+{% endif %}
+
+  </div><br>
+<a href="/user/{{user.id}}/mypage/update/">
+        <button>프로필 수정하기</button>
+    </a>
+
+  
+  <ul>
+    {% for post in user.post.all %}
+      <a href="/post/{{ post.id }}">
+          <li class="list-group-item">
+              {{ post.title }}
+          </li>
+      </a>
+      {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

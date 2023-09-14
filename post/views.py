@@ -1,9 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from post.models import Like, Post
+from post.models import Comment, Like, Post
 from user.models import User
 from django.core.paginator import Paginator
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 
@@ -63,7 +64,7 @@ def post_update(request, post_id):
         if request.user == post.user:
             post.title = request.POST["title"]
             post.content = request.POST["content"]
-            post.post_image = request.POST["post_image"]
+            post.post_image = request.FILES.get("post_image")
             post.save()
             return redirect(f"/post/{post_id}/")
         else:
@@ -87,18 +88,34 @@ def post_delete(request, post_id):
         else:
             return HttpResponse("Invalid request method", status=405)
 
-# def post(request, id):
-    
-    
-#     already_liked = PostLikes.objects.filter(user=request.user, post=post).count()
-#     if number_of_likes > 0:
-#         already_liked = True # pass this variable to your context
-#     else:
-#         already_liked = False # you can make this anything other than boolean
 
 
-# def like_others_post(request, post_id):
-#     new_like, created = PostLikes.objects.get_or_create(user=request.user, 
-#                                                    post_id=post_id)
-#     if not created:
-#         # you may get and delete the object as the user may already liked this post before
+
+
+def comment_create(request, post_id):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, id=post_id)
+        content = request.POST.get('comment_content')
+        comment = Comment(post=post, content=content, user=request.user)
+        comment.save()
+        return redirect(f'/post/{post_id}/')
+    return redirect('/user/signin/')
+
+
+
+
+
+@require_POST
+def comment_delete(request, post_id, comment_id):
+    if request.user.is_authenticated:
+        comment = get_object_or_404(Comment, id=comment_id)
+        if request.user == comment.user:
+            comment.delete()
+    return redirect(f"/post/{post_id}/")
+    # if request.method == "POST":
+    #     comment = Comment.objects.get(id=comment_id)
+    #     if request.user == comment.user:
+    #         comment.delete()
+    #         return redirect(f"/post/{post_id}/")
+    #     else:
+    #         return HttpResponse("Invalid request method", status=405)
