@@ -53,10 +53,8 @@ def mypage(request):
 def post_profile(request):
     if request.method == "POST":
         Post.objects.create(
-            title=request.POST["title"],
-            content=request.POST["content"],
             user=request.user,
-            post_image = request.FILES.get("post_image")
+            post_image = request.FILES.get("post_profile")
         )
         return redirect("user/mypage.html")
     else:
