@@ -1,27 +1,24 @@
 {% extends 'base.html' %} {% block content %}
 
 <div class = 'text-center'>
-    <h1> 프로필 수정 페이지입니다. </h1>
-    <form action="/user/{{user.id}}/profile_update/" method="post" enctype="multipart/form-data"></form>
+    <h1> 프로필 수정 페이지 </h1>
+    <p>아이디 {{ user.username }}</p>
+    <p>성 {{ user.first_name }}</p>
+    <p>이름 {{ user.last_name }}</p>
+    <form action="/user/{{user.id}}/mypage/" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <p>아이디 {{ user.username }}</p>
-        <p>성 {{ user.first_name }}</p>
-        <p>이름 {{ user.last_name }}</p>
 
 
-        비밀번호<input type="password" name="password" id="비밀번호" /><br>
+        <p>비밀번호<input type="password" name="password" id="비밀번호" /></p>
         
-        이메일<input type="email" name="email" id="이메일" value="{{ user.email }}">
+        <p>이메일<input type="email" name="email" id="이메일" value="{{ user.email }}"></p>
         
         {% if user.image %}
         <img src="{{user.image.url}}" alt="" srcset=""><br>
         {% endif %}
-        프로필 이미지<input type="file" name="user_image" id="user_image" />
-        바이오 <input type="text" name="bio" id="bio" value="{{user.bio}}">
-        <button type="submit">수정하기</button><br>
-
-        <button type="submit"></button>
-        
+        <p>프로필 이미지<input type="file" name="user_image" id="user_image" /></p>
+        <p>바이오 <input type="text" name="bio" id="bio" value="{{user.bio}}"></p>
+        <button type="submit">수정하기</button>
 
 
     </form>

@@ -32,6 +32,8 @@
         </form>        
         {% endif %}
 
+        <hr>
+
         {% if request.user.is_authenticated %}
         <form action="/post/{{post.id}}/comment_create/" method="post">
             {% csrf_token %}
@@ -45,17 +47,24 @@
         
         
         {% for comment in post.comments.all %}   
-            <div class="comment">
-                <div class="date">{{ comment.created_at }}</div>
+            <div class="comment">   
                 {% if comment.user.image %}
                     <img src="{{comment.user.image.url}}" alt="" srcset="">
                 {% else %}
                     <img src="/media/profile_pics/'default.jpg" alt="" srcset="">
                 {% endif %}
-                <strong>{{ comment.user }}</strong>
-                <p>{{ comment.content|linebreaks }}</p>
+                <p><strong>{{ comment.user }}</strong>-{{ comment.content }}</p>
+                {% if request.user == comment.user %}
+                <form action="/post/{{ post.id }}/comment/{{ comment.id }}/delete/" method="post">
+                    {% csrf_token %}
+                    <button type="submit">삭제하기</button>
+                </form>
             </div>
 
+            {% else %}
+            <p>{{comment.content}}</p>
+            {% endif %}
+            <hr>
         {% endfor %}
                 
     </div>

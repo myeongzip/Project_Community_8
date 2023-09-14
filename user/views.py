@@ -64,7 +64,7 @@ def profile_update(request, user_id):
             profile.image = request.FILES.get("user_image")
             profile.bio = request.POST["bio"]
             profile.save()
-            return redirect(f"/user/mypage/")
+            return redirect("/user/mypage/")
         else:
             return HttpResponse("You are not allowed to delete this todo", status=403)
     elif request.method == "GET":
@@ -78,5 +78,3 @@ def profile_update(request, user_id):
             return HttpResponse("You are not allowed to delete this todo", status=403)
     else:
         return HttpResponse("Invalid request method", status=405)
-
-        
