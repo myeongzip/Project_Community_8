@@ -1,38 +1,36 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from post.models import Post
+from post.models import Like, Post
 from user.models import User
+from django.core.paginator import Paginator
 
 # Create your views here.
 
 def post_likes(request, post_id):
-    if request.user.is_authenticated:
-        post = get_object_or_404(Post, id=post_id)
-        print("all() : ",post.likes.all())
-        likes = post.likes.all()
-        print("Likes : ",likes)
-        print(request.user.username)
-        if likes == request.user.username:
-            likes.filter(User=request.user.username).delete()
-        #     print("!!!!!!!!!",likes)
-        #     print("???????",request.user.username)
-        #     likes.objects.get(user=request.user.username).delete()
-        #     likes.delete()
-        else:
-            print("ㅁㅓ냐.,,?",likes)
-        #     # likes.user = request.user.username
-        #     # likes.save()
-        #     # likes.create(request.user.username)
-        #     print(likes)
-        return redirect('/')
-    return redirect('/user/signin')
+    # if request.user.is_authenticated:
+    post = get_object_or_404(Post, id=post_id)
+    user = request.user
+    # user_has_liked = post.liked_by.filter(id=user.id).exists() if user.is_authenticated else False
+    if not user.is_authenticated:
+        return redirect('/user/signin')
+    like_exists = Like.objects.filter(user=user, post=post).exists()
+    if like_exists:
+        Like.objects.filter(user=user, post=post).delete()
+    else:
+        Like.objects.create(user=user, post=post)
+
+    return redirect('/', post_id=post.id)
 
 def post_read(request):
-    post_list = Post.objects.order_by("-created_at") #최신순으로 ~!
     user_profile = User.objects.all()
+    post_list = Post.objects.order_by("-created_at")
+    paginator = Paginator(post_list, 3)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
     return render(request, 'post/post_list.html', {'post_list': post_list,
-                                                   'user_profile': user_profile
+                                                   'user_profile': user_profile,
+                                                   'posts': posts,
                                                    })
 
 def post_create(request):
