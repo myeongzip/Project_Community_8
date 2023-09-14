@@ -53,7 +53,7 @@
                 {% else %}
                     <img src="/media/profile_pics/'default.jpg" alt="" srcset="">
                 {% endif %}
-                <p><strong>{{ comment.user }}</strong>-{{ comment.content }}</p>
+                <p><strong>{{ comment.user }}</strong>-{{ comment.content }}  {{comment.created_at}}</p>
                 {% if request.user == comment.user %}
                 <form action="/post/{{ post.id }}/comment/{{ comment.id }}/delete/" method="post">
                     {% csrf_token %}
@@ -62,7 +62,7 @@
             </div>
 
             {% else %}
-            <p>{{comment.content}}</p>
+            <p><strong>{{ comment.user }}</strong>-{{ comment.content }}</p>
             {% endif %}
             <hr>
         {% endfor %}

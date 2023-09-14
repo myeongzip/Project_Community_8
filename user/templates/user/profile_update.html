@@ -5,11 +5,11 @@
     <p>아이디 {{ user.username }}</p>
     <p>성 {{ user.first_name }}</p>
     <p>이름 {{ user.last_name }}</p>
-    <form action="/user/{{user.id}}/mypage/" method="post" enctype="multipart/form-data">
+    <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
 
-        <p>비밀번호<input type="password" name="password" id="비밀번호" /></p>
+        <p>비밀번호<input type="password" name="password" id="비밀번호" value="{{ user.password }}"/></p>
         
         <p>이메일<input type="email" name="email" id="이메일" value="{{ user.email }}"></p>
         

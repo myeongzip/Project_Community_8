@@ -58,7 +58,7 @@ def mypage(request):
 def profile_update(request, user_id):
     if request.method == "POST":
         profile = User.objects.get(id=user_id)
-        if request.user == profile.user:
+        if request.user.username == profile.username:
             profile.password = request.POST["password"]
             profile.email = request.POST["email"]
             profile.image = request.FILES.get("user_image")

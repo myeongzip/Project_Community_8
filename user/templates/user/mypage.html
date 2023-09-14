@@ -7,23 +7,25 @@
   <p>이름 {{ user.last_name }}</p>
 
   <p> {{ user.bio }} </p>
-
+{% if user.image %}
   <div class="text-center">
     <img src="{{user.image.url}}" alt="" srcset="">
+{% endif %}
 
   </div><br>
 <a href="/user/{{user.id}}/mypage/update/">
         <button>프로필 수정하기</button>
     </a>
 
-  {% for post in user.post.all %}
+  
   <ul>
+    {% for post in user.post.all %}
       <a href="/post/{{ post.id }}">
           <li class="list-group-item">
               {{ post.title }}
           </li>
-      {% endfor %}
       </a>
+      {% endfor %}
   </ul>
 </div>
 
