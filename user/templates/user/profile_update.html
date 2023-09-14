@@ -2,7 +2,7 @@
 
 <div class = 'text-center'>
     <h1> 프로필 수정 페이지입니다. </h1>
-    <form action="/user/profile_update/" method="post" enctype="multipart/form-data"></form>
+    <form action="/user/{{user.id}}/profile_update/" method="post" enctype="multipart/form-data"></form>
         {% csrf_token %}
         <p>아이디 {{ user.username }}</p>
         <p>성 {{ user.first_name }}</p>
