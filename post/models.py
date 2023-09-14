@@ -6,7 +6,7 @@ from user.models import User
 # Create your models here.
 
 class Post(models.Model):
-    user = models.ForeignKey("user.User", on_delete = models.CASCADE)
+    user = models.ForeignKey("user.User", on_delete = models.CASCADE, related_name="post")
     title = models.CharField(max_length=100)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -22,11 +22,18 @@ class Post(models.Model):
     #     return PostLikes.objects.filter(post=self).count()
 
 class Comment(models.Model):   
-    user = models.ForeignKey("user.User", on_delete = models.CASCADE)   
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey("user.User", on_delete = models.CASCADE, related_name="comments")   
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def approve(self):
+        self.approved_comment = True
+        self.save()
+    
+    def __str__(self):
+        return self.content
     
 # class PostLikes(models.Model):
 #     user = models.ForeignKey(User)
