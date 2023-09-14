@@ -1,8 +1,13 @@
+from datetime import timezone
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
+from .forms import CommentForm
 
 from post.models import Comment, Post
 from user.models import User
+
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 def post_read(request):
@@ -83,20 +88,54 @@ def post_delete(request, post_id):
 #     if not created:
 #         # you may get and delete the object as the user may already liked this post before
 
-def comment_read(request):
-    # post의 id와 comment의 post id가 같다면 if 문?
-    comment_list = Comment.objects.all()
-    return render(request, 'post/detail.html', {'comment_list': comment_list})
-    
-def comment_create(request):# 파라미터를 post_id 값을 못 가져오는 이슈
-    if request.method == "POST":
-        # post_id = request.GET("comment.post.id")
-        comment = Comment.objects.create(
-            content=request.POST["comment_content"],
-            user=request.user,            
-        )
+# def comment_read(request):
+#     # post의 id와 comment의 post id가 같다면 if 문?
+#     comment_list = Comment.objects.all()
+#     return render(request, 'post/detail.html', {'comment_list': comment_list})
+
+
+def comment_create(request, post_id):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, id=post_id)
+        content = request.POST.get('comment_content')
+        comment = Comment(post=post, content=content, user=request.user)
         comment.save()
-        return redirect("/")
+        return redirect(f'/post/{post_id}/')
+    return redirect('/user/signin/')
+
+
+# @require_POST
+# def comment_create(request, post_id):# 파라미터를 post_id 값을 못 가져오는 이슈
+#     if request.user.is_authenticated:
+#         post = get_object_or_404(Post, pk=post_id)
+#         comments = Comment.objects.filter(post = post_id)
+#         if request.method == "POST":
+#             comment = Comment()
+#             comment.post = post
+#             comment.content = request.POST['content']
+#             comment.created_at = timezone.now()
+#             comment.save()
+        # content = request.POST.get('comment_content')
+        # comment = Comment(post=post, content=content, user=request.user)
+        # comment.save()
+        
+        # comment_form = CommentForm(request.POST)
+        # if comment_form.is_valid():
+        #     comment = comment_form.save(commit=False)
+        #     comment.post = post
+        #     comment.user = request.user
+        #     comment.save()
+    #     return redirect('f"/post/{post_id}/"')
+    # return redirect('/user/signin/')
+
+    # 첫번째 시도 -> 역참조 무시
+    # if request.method == "POST":
+    #     # post_id = request.GET("comment.post.id")
+    #     comments = Comment.objects.create(
+    #         content=request.POST["comment_content"],
+    #         user=request.user,            
+    #     )
+    #     return redirect("/")
     # else:
     #     return HttpResponse("Invalid request method", status=405)
 
@@ -118,12 +157,17 @@ def comment_update(request, comment_id, post_id):
     else:
         return HttpResponse("Invalid request method", status=405)
 
-
-def comment_delete(request, comment_id, post_id):
-    if request.method == "POST":
-        comment = Comment.objects.get(id=comment_id)
+@require_POST
+def comment_delete(request, post_id, comment_id):
+    if request.user.is_authenticated:
+        comment = get_object_or_404(Comment, id=comment_id)
         if request.user == comment.user:
             comment.delete()
-            return redirect(f"/post/{post_id}/")
-        else:
-            return HttpResponse("Invalid request method", status=405)
+    return redirect(f"/post/{post_id}/")
+    # if request.method == "POST":
+    #     comment = Comment.objects.get(id=comment_id)
+    #     if request.user == comment.user:
+    #         comment.delete()
+    #         return redirect(f"/post/{post_id}/")
+    #     else:
+    #         return HttpResponse("Invalid request method", status=405)

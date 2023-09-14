@@ -33,39 +33,31 @@
         {% endif %}
 
         {% if request.user.is_authenticated %}
-        <form action="/post/comment_create/" method="post">
+        <form action="/post/{{post.id}}/comment_create/" method="post">
             {% csrf_token %}
             <input type="text" name="comment_content" id="comment_content">
             <button type="submit" class="btn btn-sm btn-outline-secondary">댓글 작성</button>
         </form>
         {% else %}
-        <button  onclick="return alert('로그인 후 댓글 작성 가능합니다.');" type="button" class="btn btn-sm btn-outline-secondary">댓글 작성</button>
+        <a href="{% url 'user:signin' %}">[댓글을 작성하려면 로그인하세요.]</a>
         {% endif %}
         
-        {% if post.id == request.post.id %} <!--현재 보고 있는 상세페이지의 post의 id와 comment의 post id가 같을 때-->
-            {% for comment in comment_list %}
-            <a href="/user/mypage/">
-                {% if comment.user.image.url %}
-                <img src="{{comment.user.image.url}}" alt="" srcset="">
+        
+        
+        {% for comment in post.comments.all %}   
+            <div class="comment">
+                <div class="date">{{ comment.created_at }}</div>
+                {% if comment.user.image %}
+                    <img src="{{comment.user.image.url}}" alt="" srcset="">
                 {% else %}
-                <img src="/media/profile_pics/'default.jpg" alt="" srcset="">
-                <p>{{comment.user.fullname}}</p>
+                    <img src="/media/profile_pics/'default.jpg" alt="" srcset="">
                 {% endif %}
-            </a>
-                {% if request.user == comment.user %}
-                <form action="/post/{{ comment.id }}/comment_update/" method="post">
-                    {% csrf_token %}  
-                    <input type="text" name="content" id="content" value="{{ comment.content }}"
-                    /> <br>     
-                </form>
-                <form action="/post/{{ comment.id }}/comment_delete/" method="post">
-                    {% csrf_token %}
-                    <button>삭제하기</button>
-                </form> 
-                {% else %}
-                <p>{{comment.content}}</p>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
+                <strong>{{ comment.user }}</strong>
+                <p>{{ comment.content|linebreaks }}</p>
+            </div>
+
+        {% endfor %}
+                
     </div>
+
 {% endblock %}
