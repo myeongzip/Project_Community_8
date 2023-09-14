@@ -58,13 +58,13 @@ def mypage(request):
 def profile_update(request, user_id):
     if request.method == "POST":
         profile = User.objects.get(id=user_id)
-        if request.user == profile.user:
+        if request.user.username == profile.username:
             profile.password = request.POST["password"]
             profile.email = request.POST["email"]
             profile.image = request.FILES.get("user_image")
             profile.bio = request.POST["bio"]
             profile.save()
-            return redirect(f"/user/mypage/")
+            return redirect("/user/mypage/")
         else:
             return HttpResponse("You are not allowed to delete this todo", status=403)
     elif request.method == "GET":
@@ -78,5 +78,3 @@ def profile_update(request, user_id):
             return HttpResponse("You are not allowed to delete this todo", status=403)
     else:
         return HttpResponse("Invalid request method", status=405)
-
-        
