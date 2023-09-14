@@ -1,10 +1,9 @@
+{% extends 'base.html' %} {% block content %}
 
-
-
+<div class="text-center">
 {% if request.user.is_authenticated %}
     <div>{{ request.user}}의 마이페이지</div>
-    <form action="/user/signout/" method="POST">
-
+    
         <p>어디야</p>
         <p>어디야</p>
 
@@ -14,11 +13,17 @@
             첨부파일 : <input type="file" name="post_profile" id="post_profile" /><br>
             <button type="submit">프로필 사진 업로드</button>
         </form>
+    
+    <a href="/user/{{user.id}}/mypage/update/">
+        <button>프로필 수정하기</button>
+    </a>
     </div>
+        
+    
+    <form action="/user/signout/" method="POST">
         {% csrf_token %}
         <button>logout</button>
     </form>
-
     {% else %}
     <div>
         마이페이지를 보기위해서는 로그인
@@ -26,4 +31,5 @@
         <a href="/user/signup/">회원가입</a>
     </div>
     {% endif %}
-
+</div>
+{% endblock %}
