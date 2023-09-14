@@ -1,8 +1,8 @@
+{% extends 'base.html' %}
 
-
-
+{% block content %}
 {% if request.user.is_authenticated %}
-    <div>{{ request.user}}의 마이페이지</div>
+    <h1>{{ request.user}}의 마이페이지</h1>
     <form action="/user/signout/" method="POST">
 
         <p>어디야</p>
@@ -15,7 +15,23 @@
             <button type="submit">프로필 사진 업로드</button>
         </form>
     </div>
-        {% csrf_token %}
+
+    {% for todo in todos %}
+    <ul>
+        <a href="/post/{{ post.id }}">
+            <li class="list-group-item">
+                {{ todo.content }}
+            </li>
+        {% endfor %}
+        </a>
+    </ul>
+
+
+
+
+
+
+    {% csrf_token %}
         <button>logout</button>
     </form>
 
@@ -27,3 +43,4 @@
     </div>
     {% endif %}
 
+{% endblock %}

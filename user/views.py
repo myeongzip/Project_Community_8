@@ -60,3 +60,21 @@ def post_profile(request):
     else:
         return HttpResponse("Invalid request method", status=405)
     
+# Create your views here.
+def post_read(request):
+    post_list = Post.objects.all()
+    user_profile = User.objects.all()
+    return render(request, 'post/post_list.html', {'post_list': post_list,
+                                                   'user_profile': user_profile
+                                                   })
+
+# Create your views here.
+def post_read_detail(request, post_id):
+    post = Post.objects.get(id=post_id)
+    context = {
+            "post":post,   
+        }
+    return render(request, "post/detail.html", context)
+
+class Comment(models.Model):
+    User = models.ForeignKey(User, on_delete=models.CASCADE, related_name= "" )
