@@ -31,7 +31,11 @@ a {
               <p class="card-text" style="color: gray;">{{ p.content }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">♡ Like</button>
+                  
+                  <form action="post/{{p.id}}/likes/" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">♡ Like</button>
+                  </form>
                 </div>
                 <small class="text-body-secondary" style="font-size: xx-small;">
                   <text>{{p.user.username}}</text><br>

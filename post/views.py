@@ -1,10 +1,33 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from post.models import Post
 from user.models import User
 
 # Create your views here.
+
+def post_likes(request, post_id):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, id=post_id)
+        print("all() : ",post.likes.all())
+        likes = post.likes.all()
+        print("Likes : ",likes)
+        print(request.user.username)
+        if likes == request.user.username:
+            likes.filter(User=request.user.username).delete()
+        #     print("!!!!!!!!!",likes)
+        #     print("???????",request.user.username)
+        #     likes.objects.get(user=request.user.username).delete()
+        #     likes.delete()
+        else:
+            print("ㅁㅓ냐.,,?",likes)
+        #     # likes.user = request.user.username
+        #     # likes.save()
+        #     # likes.create(request.user.username)
+        #     print(likes)
+        return redirect('/')
+    return redirect('/user/signin')
+
 def post_read(request):
     post_list = Post.objects.order_by("-created_at") #최신순으로 ~!
     user_profile = User.objects.all()
