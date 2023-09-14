@@ -6,7 +6,7 @@ from user.models import User
 
 # Create your views here.
 def post_read(request):
-    post_list = Post.objects.all()
+    post_list = Post.objects.order_by("-created_at") #최신순으로 ~!
     user_profile = User.objects.all()
     return render(request, 'post/post_list.html', {'post_list': post_list,
                                                    'user_profile': user_profile
