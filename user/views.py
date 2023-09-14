@@ -49,3 +49,16 @@ def mypage(request):
         return render(request, "user/mypage.html")
     else:
         return HttpResponse("Invalid request method", status=405)
+    
+def post_profile(request):
+    if request.method == "POST":
+        Post.objects.create(
+            title=request.POST["title"],
+            content=request.POST["content"],
+            user=request.user,
+            post_image = request.FILES.get("post_image")
+        )
+        return redirect("user/mypage.html")
+    else:
+        return HttpResponse("Invalid request method", status=405)
+    
