@@ -11,10 +11,18 @@ from django.views.decorators.http import require_POST
 
 # Create your views here.
 def post_read(request):
-    post_list = Post.objects.all()
+    
     user_profile = User.objects.all()
+
+    post_list = Post.objects.all()
+    page = request.GET.get('page')
+    paginator = Paginator(post_list, 3)
+    page = paginator.get_page('page')
+    posts = paginator.get_page(page)
+    
     return render(request, 'post/post_list.html', {'post_list': post_list,
-                                                   'user_profile': user_profile
+                                                   'user_profile': user_profile,
+                                                   'posts': posts,
                                                    })
 
 def post_create(request):
