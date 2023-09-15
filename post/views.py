@@ -65,7 +65,8 @@ def post_update(request, post_id):
         if request.user == post.user:
             post.title = request.POST["title"]
             post.content = request.POST["content"]
-            post.post_image = request.FILES.get("post_image")
+            if request.FILES.get("post_image") is not None:
+                post.post_image = request.FILES.get("post_image")
             post.save()
             return redirect(f"/post/{post_id}/")
         else:
@@ -85,7 +86,7 @@ def post_delete(request, post_id):
         post = Post.objects.get(id=post_id)
         if request.user == post.user:
             post.delete()
-            return redirect("/index/")
+            return redirect("/")
         else:
             return HttpResponse("Invalid request method", status=405)
 
