@@ -85,7 +85,7 @@ def post_delete(request, post_id):
         post = Post.objects.get(id=post_id)
         if request.user == post.user:
             post.delete()
-            return redirect("/index/")
+            return redirect(f"/post/{post_id}/")
         else:
             return HttpResponse("Invalid request method", status=405)
 
