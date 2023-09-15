@@ -5,19 +5,33 @@
         <a href="/">
             <button>뒤돌아가기</button>
         </a>
-        <h1>제목: {{post.title}}</h1>
-        <p>{{ post.user.image }}</p>
-        <p>{{ post.user.username }}</p>
-        <p>{{post.content}}</p>
-
-        {% if post.post_image %}
-        <div class="text-center">
-            <img src="{{post.post_image.url}}" class="rounded" alt="">
+        <div class="text-center card border-success mb-3" style="max-width: 30rem;">
+            <div class="card-header bg-transparent border-success">
+                {% if post.post_image %}
+                <img src="{{ post.user.image.url }}" class="rounded" alt="">
+                {% endif %}{{ post.user.username }}</div>
+            <div class="card-body text-success">
+              <h5 class="card-title">{{post.title}}</h5>
+              <p class="card-text">{{post.content}}</p>
+              {% if post.post_image %}
+              <p><img src="{{post.post_image.url}}" alt="" srcset=""></p>
+              {% endif %}
+            </div>
+            <div class="card-footer bg-transparent border-success">
+                <p>작성시간: {{post.created_at}}</p>
+                <p>수정시간: {{post.updated_at}}</p>
+            </div>
         </div>
-        {% endif %}
 
-        <p>작성시간: {{post.created_at}}</p>
-        <p>수정시간: {{post.updated_at}}</p>
+
+        
+        <div class="text-center">
+            
+        </div>
+        
+
+        <p></p>
+        <p></p>
 
 
         {% if request.user == post.user %}
@@ -53,7 +67,7 @@
                 {% else %}
                     <img src="/media/profile_pics/'default.jpg" alt="" srcset="">
                 {% endif %}
-                <p><strong>{{ comment.user }}</strong>-{{ comment.content }}  {{comment.created_at}}</p>
+                <p><strong>{{ comment.user }}</strong>  {{ comment.content }}  {{comment.created_at}}</p>
                 {% if request.user == comment.user %}
                 <form action="/post/{{ post.id }}/comment/{{ comment.id }}/delete/" method="post">
                     {% csrf_token %}

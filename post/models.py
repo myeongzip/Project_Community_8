@@ -11,15 +11,12 @@ class Post(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    post_image = models.ImageField(blank=True, null=True, upload_to='post_pics')
+    post_image = models.ImageField(blank=True, null=True, upload_to='post_pics', default='default.jpg')
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='post_likes')
     
     def __str__(self):
         return self.title
-    
-    # @property
-    # def view_count(self):
-    #     return PostLikes.objects.filter(post=self).count()
+
 
 class Comment(models.Model):   
     user = models.ForeignKey("user.User", on_delete = models.CASCADE, related_name="comments")   
@@ -35,10 +32,7 @@ class Comment(models.Model):
     def __str__(self):
         return self.content
     
-# class PostLikes(models.Model):
-#     user = models.ForeignKey(User)
-#     post = models.ForeignKey(Post)
-#     created = models.DateTimeField(auto_now_add=True)
+
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
